@@ -11,7 +11,7 @@ jobs:
           fingerprints:
             - "SHA256:CDWpYliGtPf7m0ld84aJyHtwkNee2ivMTOQf7yr2x1A"
       - checkout
-      - run: echo "A first hello"
+      - run: echo "A first hello1"
       - run: npm -v
       - run:
           name: Install
