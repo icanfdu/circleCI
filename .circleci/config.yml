@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10
+      - image: cimg/base:current
     branches:
       only:
         - main
@@ -13,6 +13,7 @@ jobs:
       - checkout
       - run: echo "A first hello1"
       - run: npm -v
+      - run: node -v
       - run:
           name: Install
           command: npm install
