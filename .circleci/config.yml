@@ -41,3 +41,11 @@ jobs:
       - run:
           name: Build
           command: npm run build
+      # 给创建的 文件 【deploy.sh】添加权限。
+      - run:
+          name: Prepare shell commands
+          command: chmod +x scripts/deploy.sh
+      # 执行 sh 文件
+      - run:
+          name: Run Deploy to Github pages
+          command: ./scripts/deploy.sh
