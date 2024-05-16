@@ -2,21 +2,42 @@ version: 2
 jobs:
   build:
     docker:
+      # 通过 docker镜像 来定义node.js版本。
+      # 说白了 以后想要什么软件 都可以通过docker镜像来完成。
       - image: circleci/node:14
+    # 指定 工程的哪一个分支代码
     branches:
       only:
         - main
+    # 具体执行步骤
     steps:
+      # 添加 SSH key 前提需要在circleCI的项目中添加 SSHkey
       - add_ssh_keys:
           fingerprints:
             - "SHA256:CDWpYliGtPf7m0ld84aJyHtwkNee2ivMTOQf7yr2x1A"
+      # 代码的 checkout
       - checkout
+      # 打印 log
       - run: echo "A first hello1"
+      # 查看 版本
       - run: npm -v
       - run: node -v
+      # 缓存依赖的添加 restore_cache 的含义就是 尝试从缓存中恢复之前保存的依赖项 
+      # 说白了 和  下面的 【save_cache】 -【paths】的内容有关系 
+      # 就是把vue工程的插件包 node_modules 放入到缓存中，通过 restore_cache 的keys 给读取出来。
+      - restore_cache:
+          keys:
+            - dependencies_circle_demo
+      # 下载 node_modules 中的插件
       - run:
           name: Install
           command: npm install
+      # 保存 node_modules 到缓存中
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies_circle_demo
+      # 打包生成 dist 静态文件。
       - run:
           name: Build
           command: npm run build
